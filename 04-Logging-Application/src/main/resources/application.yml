@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: 04-Logging-Application
+  main:
+    banner-mode: log
+server:
+  port: 8081
+logging:
+  file:
+    name: LoggingApp.log
+  level:
+    root: info

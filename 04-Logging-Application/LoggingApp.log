@@ -1,0 +1,9 @@
+2024-04-27 13:18:10.397  INFO 14596 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-27 13:18:10.400  INFO 14596 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-27 13:18:10.401  INFO 14596 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-04-27 13:18:10.414  INFO 14596 --- [http-nio-8081-exec-1] com.rest.MessageController               : Inside MessageRestController for method welcomeMsg() started...
+2024-04-27 13:18:10.414 ERROR 14596 --- [http-nio-8081-exec-1] com.rest.MessageController               : Error occured in welcomeMsg() method
+2024-04-27 13:18:10.417  INFO 14596 --- [http-nio-8081-exec-1] com.rest.MessageController               : Inside MessageRestController for method welcomeMsg() ended...
+2024-04-27 15:14:37.046  INFO 14596 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-04-27 15:14:37.126  INFO 14596 --- [RMI TCP Connection(2)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-04-27 15:14:37.126  INFO 14596 --- [RMI TCP Connection(2)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
