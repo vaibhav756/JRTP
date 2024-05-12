@@ -1,0 +1,22 @@
+spring:
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
+  application:
+    name: 05-Mini-Project-Reports-Application
+  main:
+    banner-mode: console
+  datasource:
+    url: jdbc:mysql://localhost:3306/jrtp
+    username: vaibhav
+    password: vaibhav
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+   
+server:
+  port: 8081    
+  

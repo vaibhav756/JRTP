@@ -7,6 +7,6 @@ server:
   port: 8081
 logging:
   file:
-    name: LoggingApp.log
-  level:
-    root: info
+    #name: LoggingApp.log
+  #level:
+    #root: info

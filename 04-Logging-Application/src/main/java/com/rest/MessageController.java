@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MessageController {
 
+	//logging Levels TRACE>DEBUG>INFOR>WARN>ERROR>FATAL
 	private Logger logger=LoggerFactory.getLogger(MessageController.class);
 	
 	@GetMapping("welcome")
 	public String welcomeMsg()
 	{
+		logger.debug("This is debug message from welcomeMsg()");  //Thiis won't be printed as it has debug level which is lower than Info
 		logger.info("Inside MessageRestController for method welcomeMsg() started...");
 		String msg="Welcome to Mumbai.";
+		logger.warn("This is warn message from welcomeMsg()");
 		try {
 			int val=10/0;
 		} catch (Exception e) {
@@ -40,6 +43,7 @@ public class MessageController {
 		} catch (Exception e) {
 			//Logging level
 			logger.error("Error occured in greetMsg() method");
+			logger.error("Trace : ",e);
 			e.printStackTrace();
 		}
 		logger.info("Inside MessageRestController for method greetMsg() ended...");
