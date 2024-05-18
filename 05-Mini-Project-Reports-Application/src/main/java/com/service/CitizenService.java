@@ -18,4 +18,6 @@ public interface CitizenService {
 	
 	public boolean exportPdf(CitizenDto dto,HttpServletResponse response);
 	
+	public boolean sendEmail(String subject,String body,String toAddress);
+	
 }

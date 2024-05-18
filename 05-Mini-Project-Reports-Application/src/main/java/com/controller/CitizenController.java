@@ -82,8 +82,16 @@ public class CitizenController {
 		response.setContentType("application/pdf");
 		//Content-Disposition indicate what would be the file type.
 		response.addHeader("Content-Disposition", "attachment;filename=Report.pdf");
-		
-		service.exportPdf(new CitizenDto(),response);
+		boolean exportPdf = service.exportPdf(new CitizenDto(),response);
+	}
+	
+	@GetMapping("sendemail")
+	public void sendEmail()
+	{
+		String subject="Sending Greeting Message";
+		String body="Good Morning...!!!";
+		String toAddress="yvaibhav7890@gmail.com";
+		boolean sendEmail = service.sendEmail(subject, body, toAddress);
 	}
 	
 }

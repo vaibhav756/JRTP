@@ -107,8 +107,7 @@
 	
 	<hr style=""/>
 
-	<h5 class="text-center">Export : <a href="/exportExcel" class="btn btn-primary">EXCEL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/exportpdf" class="btn btn-secondary">PDF</a></h5>
-	
+	<h5 class="text-center">Export : <a href="/exportExcel" class="btn btn-primary">EXCEL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/exportpdf" class="btn btn-secondary">PDF</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sendemail" class="btn btn-info">Send Email</a></h5>
 	</div>
 </body>
 </html>
