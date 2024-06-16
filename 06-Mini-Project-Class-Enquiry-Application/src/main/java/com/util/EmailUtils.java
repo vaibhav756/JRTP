@@ -24,9 +24,9 @@ public class EmailUtils {
 		boolean result=false;
 		try
 		{
-			MimeMessage sender=mailsender.createMimeMessage();
+			MimeMessage mimeMessage=mailsender.createMimeMessage();
 			
-			MimeMessageHelper helper=new MimeMessageHelper(sender,true);
+			MimeMessageHelper helper=new MimeMessageHelper(mimeMessage,true);
 			
 			helper.setSubject(subject);
 			
@@ -34,16 +34,16 @@ public class EmailUtils {
 			
 			helper.setTo(toAddress);
 			
-			mailsender.send(sender);
+			mailsender.send(mimeMessage);
 			
-			result=false;
+			result=true;
 			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 			logger.error("Error occured inside sendPwd method of EmailUtils method for Address :  "+toAddress,e);
 		}
-		return false;
+		return result;
 	}
 	
 }

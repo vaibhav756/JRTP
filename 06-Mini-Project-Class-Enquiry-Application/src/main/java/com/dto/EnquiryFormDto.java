@@ -6,7 +6,7 @@ import lombok.Data;
 public class EnquiryFormDto {
 
 	private String studName;
-	private Long studPhno; 
+	private Long studPhno;
 	private String classMode;
 	private String courseName;
 }

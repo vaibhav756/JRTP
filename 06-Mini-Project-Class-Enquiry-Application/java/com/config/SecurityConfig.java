@@ -8,11 +8,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig{
 
-/*	@Bean
+	@Bean
 	public SecurityFilterChain config(HttpSecurity http) throws Exception
 	{
 		http.authorizeHttpRequests(req->{
@@ -20,5 +20,4 @@ public class SecurityConfig{
 		}).formLogin();
 		return http.build();
 	}
-*/
 }

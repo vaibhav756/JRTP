@@ -18,7 +18,7 @@ spring:
   application:
     name: 05-Mini-Project-Reports-Application
   main:
-    banner-mode: console
+    banner-mode: log
   datasource:
     url: jdbc:mysql://localhost:3306/jrtp
     username: vaibhav

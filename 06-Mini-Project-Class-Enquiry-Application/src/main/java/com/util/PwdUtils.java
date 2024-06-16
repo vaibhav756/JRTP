@@ -6,11 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class PwdUtils {
 
-	public String generateRandomPwd()
-	{
+	public static String generateRandomPwd() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
-		String pwd = RandomStringUtils.random(6, characters );
+		String pwd = RandomStringUtils.random(6, characters);
 		return pwd;
 	}
-	
+
 }

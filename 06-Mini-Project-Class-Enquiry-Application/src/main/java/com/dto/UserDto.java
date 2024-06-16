@@ -10,6 +10,5 @@ public class UserDto {
 	private String userPwd;
 	private Long userMobile;
 	private String tempPwd;
-	
-	
+
 }

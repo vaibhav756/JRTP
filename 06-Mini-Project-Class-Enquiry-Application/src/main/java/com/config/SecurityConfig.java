@@ -16,9 +16,8 @@ public class SecurityConfig{
 	public SecurityFilterChain config(HttpSecurity http) throws Exception
 	{
 		http.authorizeHttpRequests(req->{
-			req.antMatchers("/","/loginpage","/signup","/unlock","forgotpwd","/images/**").permitAll().anyRequest().authenticated();
+			req.antMatchers("/","/loginpage","/signup","/unlock","/forgotpwd","/images/**","/signuphandle","/unlockaccount","/loginuser","/forgotpassword","/dashboard").permitAll().anyRequest().authenticated();
 		}).formLogin();
 		return http.build();
 	}
-
 }

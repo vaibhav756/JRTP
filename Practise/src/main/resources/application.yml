@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: Practise
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yvaibhav756@gmail.com
+    password: qrhn vgge nzod ngnr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+server:
+  port: 8081
+  

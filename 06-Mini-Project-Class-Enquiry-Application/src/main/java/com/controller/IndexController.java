@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
 	@GetMapping("/")
-	public String welcome(Model model)
-	{
+	public String welcome(Model model) {
 		return "index";
 	}
-	
+
 }

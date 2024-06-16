@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import lombok.Data;
 
 @Data
@@ -39,10 +42,12 @@ public class UserEntity {
 	@Column(name="user_enable")
 	private Integer userEnable;
 	
+	@CreationTimestamp
 	@Column(name="crtn_time")
 	private Timestamp crtnTime;
 	
-	@Column(name="mod_time")
+	@UpdateTimestamp()
+	@Column(name="mod_time",insertable=false)
 	private Timestamp modTime;
 	
 	@Column(name="crtn_by")
@@ -51,7 +56,7 @@ public class UserEntity {
 	@Column(name="mod_by")
 	private Integer modBy;
 
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="",fetch=FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="user",fetch=FetchType.EAGER)
 	private List<StudentEnqEntity> enqs;
 	
 }

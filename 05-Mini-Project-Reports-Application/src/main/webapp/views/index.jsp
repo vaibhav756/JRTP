@@ -13,6 +13,7 @@
 </head>
 <body>
 	<div class="container">	<h1 class="pb-3 pt-3 text-center">Report Application</h1>
+	<img src="images/logo.png" alt="logo">
 	<form:form action="getcitizendata" modelAttribute="dto" method="POST">
 		<table class="text-center">
 			<tr class="pb-3 pt-3">
