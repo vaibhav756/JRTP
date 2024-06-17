@@ -1,17 +1,17 @@
 package com.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.dto.DashboardResponseDto;
 import com.dto.EnquiryFormDto;
 import com.dto.EnquirySearchCriteria;
+import com.entity.StudentEnqEntity;
 
 public interface EnquiryService {
 
 	public List<String> getCourseName();
 	
-	public Map<String,Integer> getEnqStatus(Integer userId);
+	public List<String> getEnqStatus();
 	
 	public DashboardResponseDto getDashboardData(Integer userId);
 	
@@ -19,6 +19,6 @@ public interface EnquiryService {
 	
 	public List<EnquiryFormDto> getEnquiries(Integer userId,EnquirySearchCriteria criteria);
 	
-	public EnquiryFormDto getEnquiry(Integer enqId);
+	public List<StudentEnqEntity> getEnquiry(Integer enqId);
 	
 }

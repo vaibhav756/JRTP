@@ -9,4 +9,5 @@ public class EnquiryFormDto {
 	private Long studPhno;
 	private String classMode;
 	private String courseName;
+	private String enqStatus;
 }

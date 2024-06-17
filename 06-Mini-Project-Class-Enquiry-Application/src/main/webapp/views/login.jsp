@@ -21,6 +21,9 @@
 			<div class="col-md-6">
 				<img src="images/logo.png" class="w-100" height="150px" alt="logo" />
 				<h5>Please login to your account</h5>
+				<c:if test="${error!=null}">
+					<h5 style="color:red">${error}</h5>
+				</c:if>
 				<c:if test="${result!=null}">
 					<h5 style="color:red">${result}</h5>
 				</c:if>

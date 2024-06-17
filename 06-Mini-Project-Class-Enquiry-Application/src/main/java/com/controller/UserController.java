@@ -41,10 +41,9 @@ public class UserController {
 		if("success".equals(result))
 		{
 			UserEntity user = userservice.getUserByEmail(form.getEmail());
-			session.setAttribute("userid", user.getUserId());
 			//Create session and store user data in session.
-			
-			return "redirect:/dashboard?userid="+user.getUserId();
+			session.setAttribute("userid", user.getUserId());
+			return "redirect:/dashboard";
 		}else
 		{
 			view="login";

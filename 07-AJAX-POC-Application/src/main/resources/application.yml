@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: 07-AJAX-POC-Application
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
+server:
+  port: 8081 

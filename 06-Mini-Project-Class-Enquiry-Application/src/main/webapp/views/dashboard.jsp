@@ -15,15 +15,16 @@
 		<img src="images/logo.png" width="200px" height="80px" alt="logo" />
 		<form class="form-inline">
 	   		<a href="addenquiry" class="btn btn-light" >Add Enquiry</a>&nbsp;&nbsp;&nbsp;
-			<a href="viewenquiry" class="btn btn-dark" >View Enquiry</a>
+			<a href="viewenquiry" class="btn btn-dark" >View Enquiry</a>&nbsp;&nbsp;&nbsp;
+			<a href="logoutuser" class="btn btn-danger" >Logout</a>
 		</form>
 	</nav>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-06">
-				<h1>Total Enquiry : ${total}</h1>
-				<h1>Total Success Enquiry : ${enrolled}</h1>
-				<h1>Total Failed Enquiry : ${lost}</h1>
+				<h1>Total Enquiry : ${dashboarddata.totalEnqCnt}</h1>
+				<h1 style="color:green">Total Enrolled Enquiry : ${dashboarddata.enrolledCnt}</h1>
+				<h1 style="color:red">Total Lost Enquiry : ${dashboarddata.lost}</h1>
 			</div>
 			<div class="col-md-06">
 				<img alt="ladyImage" src="images/lady.png">

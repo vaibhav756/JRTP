@@ -40,11 +40,11 @@ public class StudentEnqEntity {
 	private String enqStatus;
 
 	@CreationTimestamp
-	@Column(name = "crtn_time")
+	@Column(name = "crtn_time",updatable=false)
 	private Timestamp crtnTime;
 
 	@UpdateTimestamp
-	@Column(name = "mod_time")
+	@Column(name = "mod_time",insertable=false)
 	private Timestamp modTime;
 
 	@ManyToOne
