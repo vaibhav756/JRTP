@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.constant.AppConstants;
 import com.dto.LoginForm;
 import com.dto.SignUp;
 import com.dto.UnlockForm;
@@ -38,16 +39,16 @@ public class UserController {
 	{
 		String view=null;
 		String result = userservice.login(form);
-		if("success".equals(result))
+		if(AppConstants.SUCCESS_MSG.equals(result))
 		{
 			UserEntity user = userservice.getUserByEmail(form.getEmail());
 			//Create session and store user data in session.
-			session.setAttribute("userid", user.getUserId());
+			session.setAttribute(AppConstants.USER_ID, user.getUserId());
 			return "redirect:/dashboard";
 		}else
 		{
 			view="login";
-			model.addAttribute("result",result);
+			model.addAttribute(AppConstants.RESULT,result);
 		}
 		return view;
 	}
@@ -63,15 +64,15 @@ public class UserController {
 	public String handleSignUp(@ModelAttribute("signupform") SignUp form,Model model,HttpServletRequest req)
 	{
 		String result = userservice.signup(form,req);
-		if("success".equals(result))
+		if(AppConstants.SUCCESS_MSG.equals(result))
 		{
-			model.addAttribute("result", "Check your email.");
-		}else if("error".equals(result))
+			model.addAttribute(AppConstants.RESULT,AppConstants.CHECK_EMAIL);
+		}else if(AppConstants.ERROR_MSG.equals(result))
 		{
-			model.addAttribute("result", "System busy.Try after sometime.");			
+			model.addAttribute(AppConstants.RESULT, AppConstants.SYSTEM_BUSY);			
 		}else
 		{
-			model.addAttribute("result",result);
+			model.addAttribute(AppConstants.RESULT,result);
 		}
 		return "signup";
 	}
@@ -82,7 +83,7 @@ public class UserController {
 		UnlockForm unlockform=new UnlockForm();
 		unlockform.setEmail(email);
 		model.addAttribute("unlockform", unlockform);
-		model.addAttribute("result",null);
+		model.addAttribute(AppConstants.RESULT,null);
 		return "unlock";
 	}
 
@@ -92,10 +93,10 @@ public class UserController {
 		if(form.getNewPwd().equals(form.getConfirmPwd()))
 		{
 			String unlockresult = userservice.unlockAccount(form);
-			model.addAttribute("result",unlockresult);
+			model.addAttribute(AppConstants.RESULT,unlockresult);
 		}else
 		{
-			model.addAttribute("result","New password and confirm password is not same.");
+			model.addAttribute(AppConstants.RESULT,AppConstants.PWD_MISMATCH);
 		}
 		return "unlock";
 	}
@@ -111,21 +112,21 @@ public class UserController {
 	public String forgotPassword(@ModelAttribute("form") LoginForm form,Model model)
 	{
 		String forgotresult = userservice.forgotPwd(form.getEmail());
-		if("InvalidUser".equals(forgotresult) || "InactiveUser".equals(forgotresult) || "fail".equals(forgotresult))
+		if(AppConstants.INVALID_USER_ACC.equals(forgotresult) || AppConstants.INACTIVE_USER.equals(forgotresult) || AppConstants.ERROR_MSG.equals(forgotresult))
 		{
-			if("InvalidUser".equals(forgotresult))
+			if(AppConstants.INVALID_USER_ACC.equals(forgotresult))
 			{
-				model.addAttribute("result","Invalid email address.");
-			}else if("InactiveUser".equals(forgotresult))
+				model.addAttribute(AppConstants.RESULT,AppConstants.INVALID_EMAIL);
+			}else if(AppConstants.INACTIVE_USER.equals(forgotresult))
 			{
-				model.addAttribute("result","User is inactive.Please active.");
+				model.addAttribute(AppConstants.RESULT,AppConstants.USER_IS_INACTIVE);
 			}else
 			{
-				model.addAttribute("result","System busy,Try after sometime.");
+				model.addAttribute(AppConstants.RESULT,AppConstants.SYSTEM_BUSY);
 			}
 		}else
 		{
-			model.addAttribute("result","Forgot password successfully.Kindly check email.");
+			model.addAttribute(AppConstants.RESULT,AppConstants.FORGOT_PWD_SUCCESS);
 		}
 		return "forgotpwd";
 	}

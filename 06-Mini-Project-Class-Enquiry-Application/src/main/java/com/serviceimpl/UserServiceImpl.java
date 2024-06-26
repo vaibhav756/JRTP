@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.constant.AppConstants;
 import com.dto.LoginForm;
 import com.dto.SignUp;
 import com.dto.UnlockForm;
@@ -34,22 +35,22 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = userrepo.findByUserEmail(form.getEmail());
 		if(null!=user)
 		{
-			if(user.getUserEnable()==1)
+			if(user.getUserEnable()==AppConstants.USER_ENABLE)
 			{
 				if(user.getUserPwd().equals(form.getPwd()))
 				{
-					result="success";
+					result=AppConstants.SUCCESS_MSG;
 				}else
 				{
-					result="Invalid password.";
+					result=AppConstants.INVALID_PWD;
 				}
 			}else
 			{
-				result="Account is locked,Please unlock account.";
+				result=AppConstants.ACC_LOCKED;
 			}
 		}else
 		{
-			result="No user found with given email.";
+			result=AppConstants.INVALID_USER;
 		}
 		return result;
 	}
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public String signup(SignUp dto,HttpServletRequest req) {
-		String result="error";
+		String result=AppConstants.ERROR_MSG;
 		if(null==userrepo.findByUserEmail(dto.getEmail()))
 		{
 			//Generate Random Pwd
@@ -86,10 +87,10 @@ public class UserServiceImpl implements UserService {
 			body.append("<h2>Hi "+entity.getUserName()+",Please find below temporary password for email : "+entity.getUserEmail()+"</h2>");
 			body.append("<br><h2>Temporary Password : "+tempPwd+"</h2>");
 			body.append("<br><h2><a href='http://localhost:8081/vkyit/unlock?email="+entity.getUserEmail()+"'>Click here to unlock account</a><h2>");
-			result=emailutils.sendPwd(subject, body.toString(), entity.getUserEmail(), null)?"success":"error";
+			result=emailutils.sendPwd(subject, body.toString(), entity.getUserEmail(), null)?AppConstants.SUCCESS_MSG:AppConstants.ERROR_MSG;
 		}else
 		{
-			result="Email is already register";
+			result=AppConstants.EMAIL_ALREADY_REG;
 		}
 		return result;
 	}
@@ -100,29 +101,29 @@ public class UserServiceImpl implements UserService {
 		UserEntity entity = userrepo.findByUserEmail(form.getEmail());
 		if(null!=entity)
 		{
-			if(entity.getUserEnable()!=1)
+			if(entity.getUserEnable()!=AppConstants.USER_ENABLE)
 			{
 				if(entity.getUserPwd().equals(form.getTempPwd()))
 				{
-					entity.setUserEnable(1);
+					entity.setUserEnable(AppConstants.USER_ENABLE);
 					entity.setUserPwd(form.getConfirmPwd());
 					entity.setCrtnBy(entity.getUserId());
 					entity.setModBy(entity.getUserId());
 					userrepo.save(entity);
-					result="Account unlock successfully.";
+					result=AppConstants.UNLOCK_ACCOUNT;
 				}
 				else
 				{
-					result="Invalid password.";
+					result=AppConstants.INVALID_PWD;
 				}
 			}else
 			{
-				result="Account is already active.";
+				result=AppConstants.ACC_ALREADY_ACTIVE;
 			}
 		}
 		else
 		{
-			result="No record found with given email.";
+			result=AppConstants.INVALID_USER;
 		}
 		return result;
 	}
@@ -138,7 +139,7 @@ public class UserServiceImpl implements UserService {
 		String result="forgotpwd";
 		if(null!=user)
 		{
-			if(user.getUserEnable()==1)
+			if(user.getUserEnable()==AppConstants.USER_ENABLE)
 			{
 				//Generate Random Pwd
 				String password = PwdUtils.generateRandomPwd();
@@ -153,19 +154,19 @@ public class UserServiceImpl implements UserService {
 				body.append("<br><br><br><br><h2>Thank You/h2><br><h2>Vaibhav Yadav</h2>");
 				if(emailutils.sendPwd(subject,body.toString(),user.getUserEmail(), null))
 				{
-					result="success";
+					result=AppConstants.SUCCESS_MSG;
 				}else
 				{
-					result="fail";
+					result=AppConstants.ERROR_MSG;
 				}
 				
 			}else
 			{
-				result="InactiveUser";
+				result=AppConstants.INACTIVE_USER;
 			}
 		}else
 		{
-			result="InvalidUser";
+			result=AppConstants.INVALID_USER_ACC;
 		}
 		return result;
 	}

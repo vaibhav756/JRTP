@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.constant.AppConstants;
 import com.dto.DashboardResponseDto;
 import com.dto.EnquiryFormDto;
 import com.dto.EnquirySearchCriteria;
@@ -83,8 +84,8 @@ public class EnquiryServiceImpl implements EnquiryService {
 
 	@Override
 	public String upsertEnquiry(EnquiryFormDto dto) {
-		String result="fail";
-		Integer userId=(Integer)session.getAttribute("userid");
+		String result=AppConstants.ERROR_MSG;
+		Integer userId=(Integer)session.getAttribute(AppConstants.USER_ID);
 		Optional<UserEntity> user = userrepo.findById(userId);
 		StudentEnqEntity entity=new StudentEnqEntity();
 		entity.setStudName(dto.getStudName());
@@ -100,10 +101,10 @@ public class EnquiryServiceImpl implements EnquiryService {
 		StudentEnqEntity studresult = studenquiry.save(entity);
 		if(null!=studresult.getEnqId())
 		{
-			result="success";
+			result=AppConstants.SUCCESS_MSG;
 		}else
 		{
-			result="fail";
+			result=AppConstants.ERROR_MSG;
 		}
 		return result;
 	}

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.constant.AppConstants;
 import com.dto.DashboardResponseDto;
 import com.dto.EnquiryFormDto;
 import com.dto.EnquirySearchCriteria;
@@ -29,7 +30,7 @@ public class EnquiryController {
 	@GetMapping("/dashboard")
 	public String getDashboardData(Model model)
 	{
-		Integer id=(Integer)session.getAttribute("userid");
+		Integer id=(Integer)session.getAttribute(AppConstants.USER_ID);
 		if(null!=id)
 		{
 			DashboardResponseDto data = enqservice.getDashboardData(Integer.valueOf(id));
@@ -38,7 +39,7 @@ public class EnquiryController {
 		}else
 		{
 			model.addAttribute("loginform",new LoginForm());
-			model.addAttribute("error", "Kindly login first");
+			model.addAttribute(AppConstants.ERROR_MSG,AppConstants.LOGIN_FIRST);
 			return "login";
 		}
 	}
@@ -46,7 +47,7 @@ public class EnquiryController {
 	@GetMapping("/addenquiry")
 	public String addEnquiry(Model model)
 	{
-		Integer id=(Integer)session.getAttribute("userid");
+		Integer id=(Integer)session.getAttribute(AppConstants.USER_ID);
 		String view=null;
 		if(null!=id)
 		{
@@ -55,7 +56,7 @@ public class EnquiryController {
 		}else
 		{
 			model.addAttribute("loginform",new LoginForm());
-			model.addAttribute("error", "Kindly login first");
+			model.addAttribute(AppConstants.ERROR_MSG,AppConstants.LOGIN_FIRST);
 			view="login";
 		}
 		return view;
@@ -65,23 +66,23 @@ public class EnquiryController {
 	public String submitEnquiry(@ModelAttribute("enqform") EnquiryFormDto form ,Model model)
 	{
 		String view=null;
-		Integer id=(Integer)session.getAttribute("userid");
+		Integer id=(Integer)session.getAttribute(AppConstants.USER_ID);
 		if(null!=id)
 		{
 			String result = enqservice.upsertEnquiry(form);
-			if("success".equals(result))
+			if(AppConstants.SUCCESS_MSG.equals(result))
 			{
 				commonmodels(model);
-				model.addAttribute("result","Enquiry added successfully.");
+				model.addAttribute(AppConstants.RESULT,AppConstants.ENQUIRY_ADDED_SUCCESS);
 			}else
 			{
-				model.addAttribute("result","System busy,Try after sometime.");
+				model.addAttribute(AppConstants.ERROR_MSG,AppConstants.SYSTEM_BUSY);
 			}
 			view="addenquiry";
 		}else
 		{
 			model.addAttribute("loginform",new LoginForm());
-			model.addAttribute("error", "Kindly login first");
+			model.addAttribute(AppConstants.ERROR_MSG, AppConstants.LOGIN_FIRST);
 			view="login";
 		}
 		return view;
@@ -98,7 +99,7 @@ public class EnquiryController {
 	{	
 		commonmodels(model);
 		String view=null;
-		Integer userid=(Integer)session.getAttribute("userid");
+		Integer userid=(Integer)session.getAttribute(AppConstants.USER_ID);
 		if(null!=userid)
 		{
 			model.addAttribute("enquiries",enqservice.getEnquiryByUserId(userid));
@@ -106,7 +107,7 @@ public class EnquiryController {
 		}else
 		{
 			model.addAttribute("loginform",new LoginForm());
-			model.addAttribute("error", "Kindly login first");
+			model.addAttribute(AppConstants.ERROR_MSG, AppConstants.LOGIN_FIRST);
 			view="login";
 		}
 		return view;
@@ -116,7 +117,7 @@ public class EnquiryController {
 	public String getFilteredEnq(@RequestParam() String name,@RequestParam() String mode,@RequestParam() String status,Model model)
 	{
 		String view=null;
-		Integer userid =(Integer)session.getAttribute("userid");
+		Integer userid =(Integer)session.getAttribute(AppConstants.USER_ID);
 		if(null!=userid)
 		{
 			EnquirySearchCriteria criteria=new EnquirySearchCriteria();
@@ -137,7 +138,7 @@ public class EnquiryController {
 		}else
 		{
 			model.addAttribute("loginform",new LoginForm());
-			model.addAttribute("error", "Kindly login first");
+			model.addAttribute(AppConstants.ERROR_MSG, AppConstants.LOGIN_FIRST);
 			view="login";
 		}
 		return view;
@@ -147,7 +148,7 @@ public class EnquiryController {
 	public String editEnquiry(@RequestParam() Integer enqid,Model model)
 	{
 		String view="viewenq";
-		Integer userid=(Integer)session.getAttribute("userid");
+		Integer userid=(Integer)session.getAttribute(AppConstants.USER_ID);
 		if(null!=userid)
 		{
 			EnquiryFormDto studenqdto = enqservice.getEnquiryByEnqId(enqid);
@@ -159,12 +160,12 @@ public class EnquiryController {
 			}else
 			{
 				model.addAttribute("enquiries",enqservice.getEnquiryByUserId(userid));
-				model.addAttribute("error", "Invalid EnquiryId");
+				model.addAttribute(AppConstants.ERROR_MSG, AppConstants.INVALID_ENQ_ID);
 			}
 		}else
 		{
 			model.addAttribute("loginform",new LoginForm());
-			model.addAttribute("error", "Kindly login first");
+			model.addAttribute(AppConstants.ERROR_MSG, AppConstants.LOGIN_FIRST);
 			view="login";
 		}
 		return view;
@@ -174,11 +175,11 @@ public class EnquiryController {
 	public String updateEnquiry(@ModelAttribute("enquiry") EnquiryFormDto form ,Model model)
 	{
 		String view="editenq";
-		Integer userid=(Integer)session.getAttribute("userid");
+		Integer userid=(Integer)session.getAttribute(AppConstants.USER_ID);
 		if(null!=userid)
 		{
 			String result = enqservice.upsertEnquiry(form);
-			if("success".equals(result))
+			if(AppConstants.SUCCESS_MSG.equals(result))
 			{
 				model.addAttribute("enquiries",enqservice.getEnquiryByUserId(userid));
 				model.addAttribute("success","Enquiry with enquiry id : "+form.getEnqId()+" has been updated.");
@@ -188,13 +189,13 @@ public class EnquiryController {
 				commonmodels(model);
 				EnquiryFormDto studenqdto = enqservice.getEnquiryByEnqId(form.getEnqId());
 				model.addAttribute("enquiry",studenqdto);
-				model.addAttribute("error", "System Busy,Try after sometime.");
+				model.addAttribute(AppConstants.ERROR_MSG, AppConstants.SYSTEM_BUSY);
 			}
 		}
 		else
 		{
 			model.addAttribute("loginform",new LoginForm());
-			model.addAttribute("error", "Kindly login first");
+			model.addAttribute(AppConstants.ERROR_MSG, AppConstants.LOGIN_FIRST);
 			view="login";
 		}
 		return view;
