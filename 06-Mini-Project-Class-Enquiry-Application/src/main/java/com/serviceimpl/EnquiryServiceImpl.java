@@ -8,7 +8,10 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.dto.DashboardResponseDto;
@@ -40,6 +43,8 @@ public class EnquiryServiceImpl implements EnquiryService {
 	
 	@Autowired
 	private HttpSession session;
+	
+	private Logger logger=LoggerFactory.getLogger(EnquiryServiceImpl.class);
 	
 	@Override
 	public List<String> getCourseName() {
@@ -88,6 +93,10 @@ public class EnquiryServiceImpl implements EnquiryService {
 		entity.setCourseName(dto.getCourseName());
 		entity.setEnqStatus(dto.getEnqStatus());
 		entity.setUser(user.get());
+		if(null!=dto.getEnqId())
+		{
+			entity.setEnqId(dto.getEnqId());
+		}
 		StudentEnqEntity studresult = studenquiry.save(entity);
 		if(null!=studresult.getEnqId())
 		{
@@ -100,23 +109,30 @@ public class EnquiryServiceImpl implements EnquiryService {
 	}
 
 	@Override
-	public List<EnquiryFormDto> getEnquiries(Integer userId, EnquirySearchCriteria criteria) {
+	public List<StudentEnqEntity> getEnquiries(Integer userId, EnquirySearchCriteria criteria) {
 		
 		Optional<UserEntity> user = userrepo.findById(userId);
 		List<StudentEnqEntity> studEnqList=null;
 		if(null!=criteria)
 		{
 			//if(null!=criteria)
+			StudentEnqEntity entity=new StudentEnqEntity();
+			entity.setClassMode(criteria.getClassmode());
+			entity.setCourseName(criteria.getCourse());
+			entity.setEnqStatus(criteria.getEnqstatus());
+			entity.setUser(user.get());
+			Example ex=Example.of(entity);
+			studEnqList = studenquiry.findAll(ex);
 		}else
 		{
 			studEnqList = studenquiry.findByUser(user);
 		}
-		return null;
+		return studEnqList;
 	}
 
 	@Override
-	public List<StudentEnqEntity> getEnquiry(Integer enqId) {
-		Optional<UserEntity> user = userrepo.findById(enqId);
+	public List<StudentEnqEntity> getEnquiryByUserId(Integer userId) {
+		Optional<UserEntity> user = userrepo.findById(userId);
 		List<StudentEnqEntity> studEnqList=null;
 		if(user.isPresent())
 		{
@@ -125,4 +141,27 @@ public class EnquiryServiceImpl implements EnquiryService {
 		return studEnqList;
 	}
 
+	@Override
+	public EnquiryFormDto getEnquiryByEnqId(Integer enqid) {
+		EnquiryFormDto dto=new EnquiryFormDto();
+		try
+		{
+			Optional<StudentEnqEntity> optent = studenquiry.findById(enqid);
+			if(optent.isPresent())
+			{
+				StudentEnqEntity ent=optent.get();
+				dto.setEnqId(ent.getEnqId());
+				dto.setStudName(ent.getStudName());
+				dto.setStudPhno(ent.getStudPhno());
+				dto.setClassMode(ent.getClassMode());
+				dto.setCourseName(ent.getCourseName());
+				dto.setEnqStatus(ent.getEnqStatus());
+			}
+		}catch(Exception e)
+		{
+			logger.error("Error occured while retrieving data from StudentEnquiry for enqid : "+enqid);
+		}
+		return dto;
+	}
+	
 }

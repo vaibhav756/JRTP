@@ -6,10 +6,9 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>View Enquiries</title>
-<script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+<script src="webjars/jquery/3.6.4/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="/webjars/jquery/3.6.4/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-primary justify-content-between">
@@ -22,8 +21,16 @@
 	</nav>
 	<div class="container">
 		<div class="row text-center">
+			<c:if test="${error!=null}">
+				<h3 class="text-danger">${error}</h3>
+			</c:if>
+			<c:if test="${success!=null}">
+				<h3 class="text-success">${success}</h3>
+			</c:if>
+		</div>
+		<div class="row text-center">
 			<div class="col-md-4"><h6>Course Name</h6>
-			<select class="enqfilter">
+			<select class="enqfilter" id="course">
 				<option value="">--select--</option>
 				<c:forEach items="${courses}" var="course">
 					<option>${course}</option>
@@ -31,14 +38,14 @@
 			</select>
 			</div>
 			<div class="col-md-4"><h6 >Class Mode</h6>
-			<select class="enqfilter">
+			<select class="enqfilter" id="mode">
 				<option value="">--select--</option>
 				<option>Online</option>
 				<option>Offline</option>
 			</select>
 			</div>
 			<div class="col-md-4"><h6>Enquiry Status</h6>
-				<select class="enqfilter">
+				<select class="enqfilter" id="status">
 					<option value="">--select--</option>
 					<c:forEach items="${status}" var="stat">
 						<option>${stat}</option>
@@ -46,7 +53,8 @@
 				</select>
 			</div>
 		</div>
-		<table class="table table-striped table-bordered text-center">
+		<div id="filtereddiv"></div>
+		<table id="enqtable" class="table table-striped table-bordered text-center">
 				<thead>
 					<tr>
 						<th>Enquiry Id</th>
@@ -65,7 +73,7 @@
 						<td>${item.studPhno}</td>
 						<td>${item.classMode}</td>
 						<td>${item.courseName}</td>
-						<td><a class="btn btn-primary">Edit</a></td>
+						<td><a class="btn btn-primary" href="editenq?enqid=${item.enqId}">Edit</a></td>
 					</tr>
 				</tbody>
 				</c:forEach>
@@ -80,7 +88,26 @@
 	<script>
 	
 		$(".enqfilter").on("change",function(){
-			alert("Filter changed");
+			
+			$.ajax({
+				type : "GET",
+				url : "getfilteredenq",
+				data : {
+					name : $("#course").val(),
+					mode : $("#mode").val(),
+					status : $("#status").val()
+				},
+				success : function(data)
+				{
+					$("#enqtable").hide();
+					$("#filtereddiv").html(data);
+				},
+				error : function(data)
+				{
+					alert("Error");
+				}
+			})
+			
 		});
 		
 	</script>

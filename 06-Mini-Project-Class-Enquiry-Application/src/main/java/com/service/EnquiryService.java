@@ -17,8 +17,10 @@ public interface EnquiryService {
 	
 	public String upsertEnquiry(EnquiryFormDto dto);
 	
-	public List<EnquiryFormDto> getEnquiries(Integer userId,EnquirySearchCriteria criteria);
+	public List<StudentEnqEntity> getEnquiries(Integer userId,EnquirySearchCriteria criteria);
 	
-	public List<StudentEnqEntity> getEnquiry(Integer enqId);
+	public List<StudentEnqEntity> getEnquiryByUserId(Integer userId);
+	
+	public EnquiryFormDto getEnquiryByEnqId(Integer enqid);
 	
 }

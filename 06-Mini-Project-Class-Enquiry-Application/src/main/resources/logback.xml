@@ -11,13 +11,13 @@
 		<encoder>
 			<pattern>%d [%thread] %-5level %-50logger{40} - %msg%n</pattern>
 		</encoder>
-		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+		<!-- <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<fileNamePattern>ClassEnqApp-%d{dd-MM-yyyy}.%i.log</fileNamePattern>
 			<maxFileSize>1MB</maxFileSize>
 			<maxHistory>30</maxHistory>
 			<totalSizeCap>10MB</totalSizeCap>
 			<cleanHistoryOnStart>true</cleanHistoryOnStart>
-		</rollingPolicy>
+		</rollingPolicy> -->
 	</appender>
 	<root level="INFO">
 		<appender-ref ref="Console" />
