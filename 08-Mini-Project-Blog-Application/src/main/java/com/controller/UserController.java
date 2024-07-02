@@ -16,6 +16,7 @@ import com.dto.LoginForm;
 import com.dto.SignUp;
 import com.dto.UnlockForm;
 import com.entity.UserEntity;
+import com.service.BlogService;
 import com.service.UserService;
 
 @Controller
@@ -27,8 +28,13 @@ public class UserController {
 	@Autowired
 	private HttpSession session;
 
+	@Autowired
+	private BlogService blogservice;
+	
 	@GetMapping("/")
-	public String welcome(Model model) {
+	public String index(Model model)
+	{
+		model.addAttribute("blogs", blogservice.getAllBlogs());
 		return "index";
 	}
 	
@@ -49,7 +55,7 @@ public class UserController {
 			UserEntity user = userservice.getUserByEmail(form.getEmail());
 			//Create session and store user data in session.
 			session.setAttribute(AppConstants.USER_ID, user.getUserId());
-			return "redirect:/dashboard";
+			return "redirect:/blogdashboard";
 		}else
 		{
 			view="login";
