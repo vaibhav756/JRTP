@@ -179,11 +179,6 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 	
-	public List<BlogDto> getAllBlogs()
-	{
-		return blogservice.getAllBlogs();
-	}
-	
 	@Override
 	public UserEntity getUserById(Integer userid)
 	{

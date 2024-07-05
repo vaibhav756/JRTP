@@ -1,13 +1,12 @@
 package com.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,11 +21,10 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name="comments")
-public class Comments {
+public class CommentEntity {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="comment_id")
 	private Integer commentId;
 	
 	@Column(name="user_name")
@@ -42,13 +40,11 @@ public class Comments {
 	@Column(name="delete_flag")
 	private Integer deleteFlag=0;
 	
-	@CreationTimestamp
-	@Column(name="crtn_time",updatable=false)
-	private Timestamp crtnTime;
+	@Column(name="crtn_time")
+	private LocalDate crtnTime;
 	
-	@UpdateTimestamp
-	@Column(name="mod_time",insertable=false)
-	private Timestamp updtTime;
+	@Column(name="mod_time")
+	private LocalDate updtTime;
 	
 	@ManyToOne
 	private BlogEntity blog;

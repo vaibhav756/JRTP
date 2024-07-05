@@ -48,8 +48,8 @@ public class BlogEntity {
 	@Column(name="mod_time")
 	private LocalDate modTime;
 	
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="blog",fetch=FetchType.EAGER)
-	private List<Comments> comments;
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="blog",fetch=FetchType.EAGER,orphanRemoval=true)
+	private List<CommentEntity> comments;
 	
 	@ManyToOne
 	private UserEntity user;

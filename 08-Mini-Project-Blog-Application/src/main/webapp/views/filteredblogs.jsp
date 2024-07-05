@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<div class="col-md-8 text-center">
+		<div class="col-md-12">
 			<c:if test="${blogs!=null}">
 				<c:forEach items="${blogs}" var="blog">
 					<div class="row">
@@ -23,7 +23,7 @@
 					<hr>
 				</c:forEach>
 .			</c:if>
-			<c:if test="${blogs==null}">
+			<c:if test="${blogs==null || empty blogs}">
 				<h3>No blogs available</h3>
 			</c:if>
 		</div>

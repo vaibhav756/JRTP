@@ -24,6 +24,11 @@
 	</nav>
 	<div class="container">
 		<div class="row">
+		<c:if test="${error!=null}">
+			<div class="text-center">
+				<h1>${error}</h1>
+			</div>
+		</c:if>
 		<div class="col-md-8 text-center" id="filterddiv"></div>		
 		<div class="col-md-8 text-center" id="blogdiv">
 			<c:if test="${blogs!=null}">

@@ -34,7 +34,7 @@ public class UserController {
 	@GetMapping("/")
 	public String index(Model model)
 	{
-		model.addAttribute("blogs", blogservice.getAllBlogs());
+		model.addAttribute("blogs", blogservice.getAllBlogs(null));
 		return "index";
 	}
 	
