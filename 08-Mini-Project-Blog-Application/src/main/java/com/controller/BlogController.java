@@ -156,4 +156,127 @@ public class BlogController {
 		}
 		return view;
 	}
+	
+	@GetMapping("/editblog")
+	public String editblogs(@RequestParam() Integer blogid,Model model)
+	{
+		String view="blogdashboard";
+		Integer userId=(Integer)session.getAttribute(AppConstants.USER_ID);
+		if(null!=userId)
+		{
+			try {
+				BlogDto blogdto = blogservice.editBlog(blogid);
+				if(null!=blogdto.getBlogId())
+				{
+					view="editblog";
+					model.addAttribute("blog",blogdto);
+				}
+				else
+				{
+					model.addAttribute("allblogs",blogservice.getAllBlogs(userId));
+					model.addAttribute(AppConstants.ERROR_MSG,"Error occured while editing blog.");
+				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}else
+		{
+			model.addAttribute("loginform",new LoginForm());
+			model.addAttribute(AppConstants.RESULT,AppConstants.LOGIN_FIRST);
+			view="login";
+		}
+		return view;
+	}
+	
+	@PostMapping("/updateblog")
+	public String updateBlog(@ModelAttribute() BlogDto blog,Model model)
+	{
+		String view="blogdashboard";
+		Integer userId=(Integer)session.getAttribute(AppConstants.USER_ID);
+		if(null!=userId)
+		{
+			try {
+				if(AppConstants.SUCCESS_MSG.equals(blogservice.updateBlog(blog)))
+				{
+					model.addAttribute("allblogs",blogservice.getAllBlogs(userId));
+					model.addAttribute(AppConstants.SUCCESS_MSG,"Blog Updated Successfully.");
+				}else
+				{
+					view="editblog";
+					model.addAttribute("blog",blogservice.editBlog(blog.getBlogId()));
+					model.addAttribute(AppConstants.ERROR_MSG, "Error occured while updating blog.");
+				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}else
+		{
+			model.addAttribute("loginform",new LoginForm());
+			model.addAttribute(AppConstants.RESULT,AppConstants.LOGIN_FIRST);
+			view="login";
+		}
+		return view;
+	}
+
+	@GetMapping("/viewcomments")
+	public String viewComments(Model model)
+	{
+		String view="viewcomments";
+		Integer userId=(Integer)session.getAttribute(AppConstants.USER_ID);
+		if(null!=userId)
+		{
+			try {
+				List<CommentDto> dtolist=blogservice.getBlogCommentsByUserId(userId);
+				if(dtolist.size()>0)
+				{
+					model.addAttribute("allcomments",dtolist);
+				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}else
+		{
+			model.addAttribute("loginform",new LoginForm());
+			model.addAttribute(AppConstants.RESULT,AppConstants.LOGIN_FIRST);
+			view="login";
+		}
+		return view;
+	}
+	
+	@GetMapping("/deletecomment")
+	public String deleteComment(@RequestParam Integer commentid,Model model)
+	{
+		String view="viewcomments";
+		Integer userId=(Integer)session.getAttribute(AppConstants.USER_ID);
+		if(null!=userId)
+		{
+			try {
+				if(1==blogservice.deleteComment(commentid))
+				{
+					model.addAttribute(AppConstants.SUCCESS_MSG, "Comment deleted successfully.");
+					List<CommentDto> dtolist=blogservice.getBlogCommentsByUserId(userId);
+					if(dtolist.size()>0)
+					{
+						model.addAttribute("allcomments",dtolist);
+					}
+					view="filteredcomments";
+				}else
+				{
+					model.addAttribute(AppConstants.ERROR_MSG, "Comment deletion failed.");
+				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}else
+		{
+			model.addAttribute("loginform",new LoginForm());
+			model.addAttribute(AppConstants.RESULT,AppConstants.LOGIN_FIRST);
+			view="login";
+		}
+		return view;
+	}
 }

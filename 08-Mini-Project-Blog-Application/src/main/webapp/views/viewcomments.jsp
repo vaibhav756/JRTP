@@ -25,59 +25,63 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="#">Blogs <span class="sr-only">(current)</span></a>
-      </li> -->
+      <li class="nav-item active">
+        <a class="nav-link" href="blogdashboard">Blogs<span class="sr-only">(current)</span></a>
+      </li>
       <li class="nav-item active">
         <a class="nav-link" href="createblog">Create Blog<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="viewcomments">Comments<span class="sr-only">(current)</span></a>
-      </li>
+<!--       <li class="nav-item active">
+        <a class="nav-link" href="comments">Comments<span class="sr-only">(current)</span></a>
+      </li> -->
       <li class="nav-item active" style="float:right">
         <a class="nav-link" href="logout">Logout<span class="sr-only">(current)</span></a>
       </li>
   </div>
 </nav>
 <div class="container">
+	<div class="justify-content-center text-center">
+		<h1>List of Comments</h1>
+	</div>
 	<c:if test="${success!=null}">
 		<h3 class="text-success">${success}</h3>
 	</c:if>
 	<c:if test="${error!=null}">
 		<h3 class="text-danger">${error}</h3>
 	</c:if>
-	<div class="justify-content-center text-center">
-		<h1>Blog Dashboard</h1>
-	</div>
 	
-	<div id="filteredblogdiv"></div>
-	<div id="blogdiv">
-		<table id="blogtable" class="table table-striped table-bordered text-center">
+	<div id="filteredcommentdiv"></div>
+	<div id="commentdiv">
+		<table id="commenttable" class="table table-striped table-bordered text-center">
 					<thead>
 						<tr>
+							<th>Comment Id</th>
 							<th>Blog Id</th>
-							<th>Blog Title</th>
-							<th>Short Description</th>
+							<th>User Name</th>
+							<th>User Email</th>
+							<th>User Comment</th>
 							<th>Created At</th>
-							<th>Edit</th>
-							<th>Delete</th>
+							<th>Action</th>
 						</tr>
 					</thead>
-					<c:forEach items="${allblogs}" var="blog">
-						 <tbody>
-							<tr>
-								<td>${blog.blogId}</td>
-								<td>${blog.blogTitle}</td>
-								<td>${blog.blogShortDesc}</td>
-								<td>${blog.crtnTime}</td>
-								<td><a class="btn btn-primary" onclick="editblog(${blog.blogId})">Edit</a></td>
-								<td><a class="btn btn-danger" onclick="deleteblog(${blog.blogId})">Delete</a></td>
-							</tr>
-						</tbody> 
-					</c:forEach>
-					 <c:if test="${allblogs==null || empty allblogs}">
+					<c:if test="${!empty allcomments}">
+						<c:forEach items="${allcomments}" var="comment">
+							 <tbody>
+								<tr>
+									<td>${comment.commentId}</td>
+									<td>${comment.blog.blogId}</td>
+									<td>${comment.name}</td>
+									<td>${comment.email}</td>
+									<td>${comment.comment}</td>
+									<td >${comment.crtnTime}</td>
+									<td><a class="btn btn-danger" onclick="deletecomment(${comment.commentId})">Delete</a></td>
+								</tr>
+							</tbody> 
+						</c:forEach>
+					</c:if>
+					 <c:if test="${allcomments==null || empty allcomments}">
 						<tr>
-							<td colspan="12" class="text-center">No Record Found</h1>
+							<td colspan="12" class="text-center">No Comments Found</h1>
 						</tr>
 					</c:if>
 			</table>
@@ -85,17 +89,17 @@
 </div>
 <script>
 	
-	function deleteblog(blogid)
+	function deletecomment(commentid)
 	{
 		$.ajax({
-			url : "deleteblog",
+			url : "deletecomment",
 			type : "GET",
 			data : {
-				blogid : blogid
+				commentid : commentid
 			},success : function(data)
 			{
-				$("#blogdiv").hide();
-				$("#filteredblogdiv").html(data);
+				$("#commentdiv").hide();
+				$("#filteredcommentdiv").html(data);
 			},error : function(data)
 			{
 				alert("Error occured while deleting blog")				

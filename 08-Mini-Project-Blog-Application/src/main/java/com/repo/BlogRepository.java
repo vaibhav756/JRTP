@@ -14,5 +14,5 @@ public interface BlogRepository extends JpaRepository<BlogEntity,Integer>{
 	public List<BlogEntity> findByBlogName(String blogtitle);
 
 	public List<BlogEntity> findByUser(UserEntity user);
-	
+
 }

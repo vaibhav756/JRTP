@@ -15,4 +15,7 @@ public interface BlogService {
 	BlogDto getBlogById(Integer blogid);
 	List<CommentDto> getBlogCommentsByBlogId(Integer blogid);
 	void submitComment(CommentDto comment);
+	List<CommentDto> getBlogCommentsByUserId(Integer userid);
+	Integer deleteComment(Integer commentid);
+	
 }

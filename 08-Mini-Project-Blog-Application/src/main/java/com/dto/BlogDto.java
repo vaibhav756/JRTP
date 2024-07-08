@@ -1,7 +1,9 @@
 package com.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import com.entity.CommentEntity;
 import com.entity.UserEntity;
 
 import lombok.Data;
@@ -16,4 +18,5 @@ public class BlogDto {
 	private UserEntity user;
 	private LocalDate crtnTime;
 	private LocalDate modTime;
+	private List<CommentEntity> comments;
 }

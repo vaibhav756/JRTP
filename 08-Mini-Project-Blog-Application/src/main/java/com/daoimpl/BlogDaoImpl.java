@@ -1,5 +1,6 @@
 package com.daoimpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.BlogDao;
+import com.dto.BlogDto;
 import com.entity.BlogEntity;
 import com.entity.CommentEntity;
 import com.entity.UserEntity;
@@ -90,6 +92,57 @@ public class BlogDaoImpl implements BlogDao {
 		}catch(Exception e)
 		{
 			logger.error("Error occured while deleting blog with blogid : "+id);
+		}
+		return result;
+	}
+	
+	@Override
+	public Integer updateBlog(BlogDto dto)
+	{
+		Integer result=0;
+		BlogEntity entity=new BlogEntity();
+		try
+		{
+			Optional<BlogEntity> optentity = blogrepo.findById(dto.getBlogId());
+			if(optentity.isPresent())
+			{
+				entity = optentity.get();
+				entity.setBlogTitle(dto.getBlogTitle());
+				entity.setBlogShortDesc(dto.getBlogShortDesc());
+				entity.setBlogContent(dto.getBlogContent());
+				blogrepo.save(entity);
+				result=1;
+			}
+		}catch(Exception e)
+		{
+			logger.error("Error occured while updating blog with blogId : "+entity.getBlogId());
+		}
+		return result;
+	}
+	
+	@Override
+	public List<CommentEntity> getCommentsByUserId(Integer userid) {
+		List<BlogEntity> entitylist = getAllBlogs(userid);
+		List<CommentEntity> commentlist=new ArrayList<>();
+		
+		entitylist.forEach(entity->{
+			List<CommentEntity> comments = commentrepo.findByBlog(entity);
+			comments.forEach(comment->{
+				commentlist.add(comment);
+			});
+		});
+		return commentlist;
+	}
+	
+	@Override
+	public Integer deleteComment(Integer commentid) {
+		Integer result=0;
+		try {
+			commentrepo.deleteById(commentid);
+			result=1;
+		}catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 		return result;
 	}

@@ -48,13 +48,19 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public BlogDto editBlog(Integer id) {
-		return null;
+	public BlogDto editBlog(Integer blogid) {
+		BlogDto dto=new BlogDto();
+		Optional<BlogEntity> blogentity = blogdao.getBlogById(blogid);
+		if(blogentity.isPresent())
+		{
+			BeanUtils.copyProperties(blogentity.get(), dto);
+		}
+		return dto;
 	}
 
 	@Override
 	public String updateBlog(BlogDto dto) {
-		return null;
+		return blogdao.updateBlog(dto)==1?AppConstants.SUCCESS_MSG:AppConstants.ERROR_MSG;
 	}
 
 	@Override
@@ -116,6 +122,26 @@ public class BlogServiceImpl implements BlogService {
 		commententity.setBlog(blogentity);
 		commententity.setCrtnTime(LocalDate.now());
 		blogdao.addComment(commententity);
+	}
+	
+	@Override
+	public List<CommentDto> getBlogCommentsByUserId(Integer userid) {
+		List<CommentDto> dtolist=new ArrayList<>();
+		List<CommentEntity> commentlist = blogdao.getCommentsByUserId(userid);
+		if(commentlist.size()>0)
+		{
+			commentlist.forEach(comment->{
+				CommentDto dto=new CommentDto();
+				BeanUtils.copyProperties(comment, dto);
+				dtolist.add(dto);
+			});
+		}
+		return dtolist;
+	}
+	
+	@Override
+	public Integer deleteComment(Integer commentid) {
+		return blogdao.deleteComment(commentid);
 	}
 	
 }

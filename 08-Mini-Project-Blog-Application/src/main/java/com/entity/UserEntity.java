@@ -56,7 +56,7 @@ public class UserEntity {
 	@Column(name="mod_by")
 	private Integer modBy;
 
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="user",fetch=FetchType.EAGER,orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="user",fetch=FetchType.EAGER,orphanRemoval=true)
 	private List<BlogEntity> blogs;
  	
 }

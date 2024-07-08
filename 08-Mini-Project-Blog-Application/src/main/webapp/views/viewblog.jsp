@@ -32,11 +32,11 @@
 		<div class="row" id="newcomments"></div>
 		<div class="row" id="commentsdiv">
 			<c:forEach items="${comments}" var="comment">
-				<div>
+				<div class="w-100">
 					<h1>${comment.name}</h1>
 					<h4>${comment.crtnTime}</h4>
 					<p style="color:red">${comment.comment}</p>
-				</div><hr>
+				</div>
 			</c:forEach>
 		</div><hr>
 		<div>

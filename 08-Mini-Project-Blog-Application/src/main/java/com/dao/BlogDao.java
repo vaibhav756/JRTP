@@ -3,6 +3,7 @@ package com.dao;
 import java.util.List;
 import java.util.Optional;
 
+import com.dto.BlogDto;
 import com.entity.BlogEntity;
 import com.entity.CommentEntity;
 
@@ -22,4 +23,10 @@ public interface BlogDao {
 
 	Integer deleteblog(Integer id);
 
+	Integer updateBlog(BlogDto entity);
+	
+	List<CommentEntity> getCommentsByUserId(Integer userid);
+	
+	Integer deleteComment(Integer commentid);
+	
 }

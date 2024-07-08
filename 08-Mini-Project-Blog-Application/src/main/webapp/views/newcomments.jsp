@@ -9,11 +9,11 @@
 </head>
 <body>
 <c:forEach items="${comments}" var="comment">
-	<div>
+	<div class="w-100">
 				<h1>${comment.name}</h1>
 				<h3>${comment.crtnTime}</h3>
 				<p style="color:red">${comment.comment}</p>
-	</div><hr>
+	</div>
 </c:forEach>
 </body>
 </html>

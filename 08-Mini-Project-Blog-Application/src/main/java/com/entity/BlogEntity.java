@@ -48,7 +48,7 @@ public class BlogEntity {
 	@Column(name="mod_time")
 	private LocalDate modTime;
 	
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="blog",fetch=FetchType.EAGER,orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="blog",fetch=FetchType.EAGER,orphanRemoval=true)
 	private List<CommentEntity> comments;
 	
 	@ManyToOne
