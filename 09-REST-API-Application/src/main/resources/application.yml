@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: 09-REST-API-Application
+server:
+  port: 8081
+app:
+  commons:
+    welcomemsg: Welcome to Mumbai.
+    greetmsg: Greeting from Mumbai.
