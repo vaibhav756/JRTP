@@ -34,7 +34,7 @@
 				    <form:input type="password" class="form-control" path="pwd" id="exampleInputPassword1" placeholder="Password"></form:input>
 			  	</div>
 			  	<div class="row mb-4">
-				  	<button type="submit" class="w-100 btn btn-primary">LOG IN</button>
+				  	<form:button type="submit" class="w-100 btn btn-primary">LOG IN</form:button>
 			  	</div>
 			  	<div class="row">
 				  	<a href="forgotpwd" class="w-100 d-block text-center">Forgot Password?</a>

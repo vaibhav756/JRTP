@@ -95,7 +95,7 @@ public class BlogController {
 		return view;
 	}
 	
-	@GetMapping("/logout")
+	@GetMapping("/logoutuser")
 	public String logout(Model model)
 	{
 		session.invalidate();

@@ -35,7 +35,7 @@
         <a class="nav-link" href="comments">Comments<span class="sr-only">(current)</span></a>
       </li> -->
       <li class="nav-item active" style="float:right">
-        <a class="nav-link" href="logout">Logout<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="logoutuser">Logout<span class="sr-only">(current)</span></a>
       </li>
   </div>
 </nav>

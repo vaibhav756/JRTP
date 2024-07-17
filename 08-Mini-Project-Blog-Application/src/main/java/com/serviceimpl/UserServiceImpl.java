@@ -1,15 +1,13 @@
 package com.serviceimpl;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.constant.AppConstants;
-import com.dto.BlogDto;
 import com.dto.LoginForm;
 import com.dto.SignUp;
 import com.dto.UnlockForm;
@@ -36,6 +34,8 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private EmailUtils emailutils;
+
+	BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 	
 	@Override
 	public String login(LoginForm form) {
@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService{
 		{
 			if(user.getUserEnable()==AppConstants.USER_ENABLE)
 			{
-				if(user.getUserPwd().equals(form.getPwd()))
+				//if(user.getUserPwd().equals(form.getPwd()))
+				if(encoder.matches(form.getPwd(), user.getUserPwd()))
 				{
 					result=AppConstants.SUCCESS_MSG;
 				}else
@@ -71,14 +72,13 @@ public class UserServiceImpl implements UserService{
 		{
 			//Generate Random Pwd
 			String tempPwd = PwdUtils.generateRandomPwd();
-			
 			//Copy data from Dto obj to Entity obj
 			UserEntity entity=new UserEntity();
 			entity.setUserEmail(dto.getEmail());
 			entity.setUserMobile(Long.valueOf(dto.getPhno()));
 			entity.setUserName(dto.getName());
 			entity.setUserEnable(0);
-			entity.setUserPwd(tempPwd);
+			entity.setUserPwd(encoder.encode(tempPwd));
 			UserEntity userentity = userrepo.save(entity);
 			
 			
@@ -111,10 +111,12 @@ public class UserServiceImpl implements UserService{
 		{
 			if(entity.getUserEnable()!=AppConstants.USER_ENABLE)
 			{
-				if(entity.getUserPwd().equals(form.getTempPwd()))
+				//if(entity.getUserPwd().equals(form.getTempPwd()))
+				//Verify if both password same or not using bcrypt password encoder
+				if(encoder.matches(form.getTempPwd(), entity.getUserPwd()))
 				{
 					entity.setUserEnable(AppConstants.USER_ENABLE);
-					entity.setUserPwd(form.getConfirmPwd());
+					entity.setUserPwd(encoder.encode(form.getConfirmPwd()));
 					entity.setCrtnBy(entity.getUserId());
 					entity.setModBy(entity.getUserId());
 					userrepo.save(entity);
@@ -153,7 +155,7 @@ public class UserServiceImpl implements UserService{
 				String password = PwdUtils.generateRandomPwd();
 				
 				user.setModBy(user.getUserId());
-				user.setUserPwd(password);
+				user.setUserPwd(encoder.encode(password));
 				userrepo.save(user);
 				String subject="Forgot Password";
 				StringBuffer body=new StringBuffer();
