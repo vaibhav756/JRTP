@@ -56,8 +56,8 @@ public class AccountServiceImpl implements AccountService {
 		
 		//send email to user to unlock account
 		String toAddress=form.getEmail();
-		String subject="User Registration";
-		String body=readEmailBody("REG_EMAIL_BODY.txt", entity);
+		String subject=AppConstants.USER_REGISTRATION_SUBJECT;
+		String body=readEmailBody(AppConstants.REG_EMAIL_BODY_TXT, entity);
 		return emailutils.sendEmail(subject, body, toAddress,null);
 	}
 
@@ -133,9 +133,9 @@ public class AccountServiceImpl implements AccountService {
 		try(Stream<String> lines=Files.lines(Paths.get(fileName)))
 		{
 			lines.forEach(line->{
-				line=line.replace("${FNAME}",user.getFullName());
-				line=line.replace("${PWD}",user.getPwd());
-				line=line.replace("${EMAIL}",user.getEmail());
+				line=line.replace(AppConstants.FNAME,user.getFullName());
+				line=line.replace(AppConstants.PWD,user.getPwd());
+				line=line.replace(AppConstants.EMAIL,user.getEmail());
 				sb.append(line);
 			});
 		}catch(Exception e)

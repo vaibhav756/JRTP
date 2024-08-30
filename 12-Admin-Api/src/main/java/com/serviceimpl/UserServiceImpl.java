@@ -60,8 +60,8 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}else
 		{
-			String subject="Recover Pwd";
-			String body=readEmailBody("FORGOT_PWD_EMAIL_BODY.txt", entity);
+			String subject=AppConstants.RECOVER_PWD;
+			String body=readEmailBody(AppConstants.FORGOT_PWD_EMAIL_TXT, entity);
 			return emailutils.sendEmail(subject, body, email,null);
 		}
 	}
@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService {
 		List<EligEntity> eligiList = eligrepo.findAll();
 		DashboardCards card=new DashboardCards();
 		card.setPlansCount(planrepo.count());
-		card.setApprovedCount(eligiList.stream().filter(ed->"AP".equals(ed.getPlanStatus())).count());
-		card.setDeniedCount(eligiList.stream().filter(ed->"DN".equals(ed.getPlanStatus())).count());
+		card.setApprovedCount(eligiList.stream().filter(ed->AppConstants.APPLICATION_APPROVED.equals(ed.getPlanStatus())).count());
+		card.setDeniedCount(eligiList.stream().filter(ed->AppConstants.APPLICATION_DENIED.equals(ed.getPlanStatus())).count());
 		card.setBeniftAmtGiven(eligiList.stream().mapToDouble(ed->ed.getBenefitAmt()).sum());
 		return card;
 	}
@@ -92,9 +92,9 @@ public class UserServiceImpl implements UserService {
 		try(Stream<String> lines=Files.lines(Paths.get(fileName)))
 		{
 			lines.forEach(line->{
-				line=line.replace("${FNAME}",user.getFullName());
-				line=line.replace("${PWD}",user.getPwd());
-				line=line.replace("${EMAIL}",user.getEmail());
+				line=line.replace(AppConstants.FNAME,user.getFullName());
+				line=line.replace(AppConstants.PWD,user.getPwd());
+				line=line.replace(AppConstants.EMAIL,user.getEmail());
 				sb.append(line);
 			});
 		}catch(Exception e)
